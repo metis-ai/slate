@@ -21,6 +21,50 @@ botSON is a JSON structure defined to create chatbots. Bots are finite states ma
 
 # Getting Started
 
+```json
+{
+  "definition": {
+    "initial": {
+      "label": "initial",
+      "input": {
+        "variable":"first_text_from_user",
+        "action":"free_text"
+      },
+      "next_step": "helloworld"
+    },
+    "helloworld": {
+      "label": "helloworld",
+      "output": "Hello World!",
+      "next_step": "exit"
+    },
+    "input_failure": {
+      "label": "input_failure",
+      "output": {
+        "type": "text",
+        "data": "This happens when the user don't put the expected input data"
+      },
+      "next_step":  "exit"
+    },
+    "external_request_failure": {
+      "label": "external_request_failure",
+      "output": {
+        "type": "text",
+        "data": "This happens when a response is outside the range 200-299"
+      },
+      "next_step":  "object_choice"
+    },
+    "fallback_instruction": {
+      "label": "fallback_instruction",
+      "output": {
+        "type": "text",
+        "data": "This happens when a state is missing"
+      },
+      "next_step": "initial"
+    }
+  }
+}
+```
+
 #Top level properties
 
 ##input_retry
