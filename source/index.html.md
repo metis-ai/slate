@@ -19,7 +19,25 @@ This folder contains several examples of chatbots defined in our JSON specificat
 
 botSON is a JSON structure defined to create chatbots. Bots are finite states machines that are able to comunicate with external resources and do some stuff defined by their transitions. It uses [Jinja](http://jinja.pocoo.org/) to give flexible state interactions.
 
-# Getting Started
+#Getting Started
+
+##Creating a state
+
+```json
+{
+  "definition": {
+    "helloworld": {
+      "label": "helloworld",
+      "output": "Hello World!",
+      "next_step": "exit"
+    }
+  }
+}
+```
+
+The definition of the bot is composed by states. Each one has a `label`, a `next_step` and at least one `output` or `input`. The state 'exit' indicates the end of execution. There are four additional obligatory states needed for the correct execution: 'initial', 'input_failure', 'external_request_failure' and 'fallback_instruction'.
+
+##First complete definition
 
 ```json
 {
@@ -41,7 +59,7 @@ botSON is a JSON structure defined to create chatbots. Bots are finite states ma
       "label": "input_failure",
       "output": {
         "type": "text",
-        "data": "This happens when the user don't put the expected input data"
+        "data": "This happens when the end user don't put the expected input data"
       },
       "next_step":  "exit"
     },
@@ -51,7 +69,7 @@ botSON is a JSON structure defined to create chatbots. Bots are finite states ma
         "type": "text",
         "data": "This happens when a response is outside the range 200-299"
       },
-      "next_step":  "object_choice"
+      "next_step":  "exit"
     },
     "fallback_instruction": {
       "label": "fallback_instruction",
@@ -59,11 +77,15 @@ botSON is a JSON structure defined to create chatbots. Bots are finite states ma
         "type": "text",
         "data": "This happens when a state is missing"
       },
-      "next_step": "initial"
+      "next_step": "exit"
     }
   }
 }
 ```
+
+Every bot starts it's execution in the 'initial' state when it receives the first message. Then, the automata follows the flow from state to state assigned in the 'next_step' field.
+
+##Getting started 2
 
 #Top level properties
 
@@ -142,6 +164,10 @@ Triggers must have a valid `next_step` attribute. If next step is `null` the bot
 ##definition
 
 The array of possible states of the bot. The first state should be named **initial** and should **NOT** have output. When the bot enters a state, the first thing it does is to update the context, then writting all the outputs (if any) and finally wait for a user input (if defined). Either `output` or `input` must be defined.
+
+###label
+
+TODO
 
 ###context 
 
