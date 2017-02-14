@@ -263,13 +263,24 @@ TODO
   "type": "location",
   "latitude": 41.412255,
   "longitude": 2.2079313,
-  "title": "My Home",                   //Optional
-  "address": "Hollywood Boulevard 32",  //Optional
-  "url": "http://any.url.com"           //Optional
+  "title": "My Home",
+  "address": "Hollywood Boulevard 32",
+  "url": "http://any.url.com"
 }
 ```
 
-TODO
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| type      | "location" | |
+| latitude  | Number      |    |
+| longitude | Number      |    |
+| title     | String      |  *optional*<br>*32 chars max*  |
+| address   | String      |  *optional*  |
+| url       | String      |  *optional*  |
+
+<aside class="warning">
+IMPORTANT: The Location Output is not available on Facebook.
+</aside>
 
 ##Contact
 
@@ -319,14 +330,39 @@ TODO
 }
 ```
 
-They support 2 types of buttons:
+A rich interactive message that displays a horizontal scrollable carousel of items, each composed of an image attachment, short description and buttons to request input from the user.
+
+<img width="300" src="/images/carrousel.png">
+
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| type      | "carrousel" | |
+| elements  | Array of Elements  | *10 elements max (will truncate)*   |
+
+###Element:
+
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| title      | String | |
+| subtitle  | String  |   |
+| image_url  | String  |   |
+| buttons  | Array of Buttons  | *3 elements max (will truncate)*  |
+
+###Button:
+
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| type      | "web_url" or "postback" | |
+| title  | String  |   |
+| url  | String  | *mandatory if type is "web_url"*  |
+| payload  | String  | *mandatory if type is "postback"* |
 
 `postback`: this type of buttons act as if the end-user typed the title of the button.
 
 `web_url`: this type of buttons open the `url` in a browser.
 
 <aside class="warning">
-IMPORTANT: The carrousel type is only available on Facebook. Currently other platforms will ignore that output.
+IMPORTANT: The carrousel output is only available on Facebook. Currently other platforms will ignore that output.
 </aside>
 
 ##Quick Replies
