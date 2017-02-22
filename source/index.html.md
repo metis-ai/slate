@@ -534,6 +534,34 @@ IMPORTANT: The get location input is only available on Facebook.
 ```
 It will save in the variable the url given by the provider ( facebook )
 IMPORTANT: The get image input is only available on Facebook. 
+#AI integration
+You are able to use watson or api.ai bots to manage the botSON flow. 
+```json
+"ai_backends":{
+  "watson": {
+    "username": "(id)",
+    "password": "(pass)",
+    "workspace_id": "(w_id)"
+  },
+  "api_ai":{
+    "token":"(token)"
+  }
+},
+```
+To start just configure the credentials
+
+```json
+"input":{
+    "action":"get_intent",
+    "variable":"variable_name"
+}
+```
+```json
+"context":{
+    "ai_result_name_var":"ai_conversation(ai_backends, _input)"
+}
+```
+Then you can call the ai in two different ways. The object return has `intent`, `entities` and `raw`. Where raw is the full API response.
 #Templating
 
 See [Jinja](http://jinja.pocoo.org/).
