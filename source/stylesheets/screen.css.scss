@@ -481,6 +481,11 @@ html, body {
       text-shadow: 0 1px 0 lighten($aside-warning-bg, 15%);
     }
 
+    &.softwarn {
+      background-color: $aside-softwarn-bg;
+      text-shadow: 0 1px 0 lighten($aside-warning-bg, 15%);
+    }
+
     &.success {
       background-color: $aside-success-bg;
       text-shadow: 0 1px 0 lighten($aside-success-bg, 15%);
@@ -495,6 +500,10 @@ html, body {
 
   aside.notice:before {
     @extend %icon-info-sign;
+  }
+
+  aside.softwarn:before {
+    @extend %icon-exclamation-sign;
   }
 
   aside.warning:before {
