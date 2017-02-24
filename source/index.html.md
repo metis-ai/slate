@@ -193,7 +193,7 @@ Defines the default values that are used throughout the chatbot flow in differen
     "text":[
       {
         "match":"trigger_(?P<id>\\w+)",
-        "next_step": "trigger_id"
+        "next_step": "trigger_{{id}}"
       },
       {
         "match":"help",
@@ -204,21 +204,76 @@ Defines the default values that are used throughout the chatbot flow in differen
 }
 ```
 
-Commands that are available at any point during the bot execution, regardless of its current state.`text` triggers 
-can be fired by user inputs or payloads, while `payload` triggers can not be fired by user messages. Triggers are 
-matched with regular expressions, if the regexp contains named groups, those will be added to the bot context with 
-the corresponding matched value. Usually triggers are used to capture button clicks (what Facebook calls 'Postbacks')
- and general commands like "help". When a user input is captured by a trigger, it is not consumed by the current state.
+Triggers are commands that are available at any point during the bot execution, regardless of its current state.
 
-Triggers must have valid `next_step` and `match` attributes. If next step is `null` the bot will consume that input 
-without any change, which is useful if we want to ignore some words. See [next_step](#next_step) reference for more 
+* `text` triggers can be fired by user inputs or payloads
+
+* `payload` triggers can not be fired by user messages. *(Higher priority than text triggers.)*
+
+Triggers are matched with regular expressions. If the regexp contains named groups, those will be added as variables
+with the corresponding matched value. When a user input is captured by a trigger, it is not consumed by the current
+state.
+
+Triggers must have valid `next_step` and `match` attributes. If `next_step` is `null` the bot will consume that input 
+without any change, which is useful if you want to ignore some words. See [next_step](#next_step) reference for more 
 info.
+
+Usually triggers are used to capture button clicks (what Facebook calls 'Postbacks') and general commands like "help".
 
 ##definition
 
-The array of possible states of the bot. The first state should be named **initial** and should **NOT** have output. 
-When the bot enters a state, the first thing it does is to update the context, then writting all the outputs (if any)
- and finally wait for a user input (if defined). Either `output` or `input` must be defined.
+This field contains an array of all the states of the bot.
+
+When the bot enters a state, the first thing it does is to update the context, then it writes all the outputs
+(if any) and finally wait for a user input (if defined).
+
+<aside class="warning">
+IMPORTANT: Either 'output' or 'input' must be defined in each state.
+</aside>
+
+```json
+{
+  "definition": [
+    {
+      "label": "initial",
+      "input": {
+        "action": "free-text",
+        "variable": "first_input_from_user"
+      },
+      "output": {
+        "type": "text",
+        "data": "data_of_output"
+      },
+      "next_step": "next_state_in_flow"
+    },
+    {
+      "label": "next_state_in_flow",
+      "context": {
+        "variable_name": "variable_value"
+      },
+      "output": [
+        {
+          "type": "text",
+          "data": "data_of_output_in_array"
+        },
+        {
+          "type": "text",
+          "data": "another_output_in_array"
+        },
+        {
+          "type": "text",
+          "data": "variable_name value: {{variable_name}}"
+        }
+      ],
+      "next_step": "next_state_in_flow"
+    }
+  ]
+}
+```
+
+It is required a state named `initial`, that is the first state in the execution flow. `initial` will only start 
+after the user sends it's first input. Then, it will update the context, write the outputs and go to `next_step`. It 
+is recomended that no state go to `initial`.
 
 ###label
 
@@ -228,29 +283,25 @@ The state name.
 
 *(Optional)*
 
-Variables to be saved when entering the state.
+Variables to be assigned when entering the state.
 
 ###output 
 
 *(Optional)*
 
-The bot will output the data defined here. It has different possible [data types](#output-types).
+The bot will send in order all outputs defined here. It has different possible [data types](#output-types).
 
 ###input 
 
 *(Optional)*
 
-Input from the user. The field "actions" specifies the expected [type of input](#input-actions).
+Input of the bot. It can come from the user or as a response to url calls. The field "actions" specifies the expected 
+[type of input](#input-actions).
 
 ###next_step
 
-```json
-{
-  "next_step": "another_state"
-}
-```
-
-Next state to jump after all steps: **context , output, input**.
+Name of the next state in the flow of the bot. For a conditional next_step (i.e. jumping to different states 
+depending of variables) see [templating](#templating).
 
 #Output types
 
