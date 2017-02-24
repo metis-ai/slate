@@ -15,29 +15,16 @@ search: true
 
 botSON definitions for the bots created and mantained for hubtype.
 
-This folder contains several examples of chatbots defined in our JSON specification language (botSON). Here you'll also find the bots we define for our real clients, for demos or for fun (consumer oriented).
+This folder contains several examples of chatbots defined in our JSON specification language (botSON). Here you'll 
+also find the bots we define for our real clients, for demos or for fun (consumer oriented).
 
-botSON is a JSON structure defined to create chatbots. Bots are finite states machines that are able to comunicate with external resources and do some stuff defined by their transitions. It uses [Jinja](http://jinja.pocoo.org/) to give flexible state interactions.
+botSON is a JSON structure defined to create chatbots. Bots are finite states machines that are able to comunicate 
+with external resources and do some stuff defined by their transitions. It uses [Jinja](http://jinja.pocoo.org/) to 
+give flexible state interactions.
 
 #Getting Started
 
 ##Creating a state
-
-```json
-{
-  "definition": [
-    {
-      "label": "helloworld",
-      "output": "Hello World!",
-      "next_step": "exit"
-    }
-  ]
-}
-```
-
-The definition of the bot is composed by states. Each one has a `label`, a `next_step` and at least one `output` or `input`. The state 'exit' indicates the end of execution. There are four additional obligatory states needed for the correct execution: 'initial', 'input_failure', 'external_request_failure' and 'fallback_instruction'.
-
-##First complete definition
 
 ```json
 {
@@ -54,38 +41,81 @@ The definition of the bot is composed by states. Each one has a `label`, a `next
       "label": "helloworld",
       "output": "Hello World!",
       "next_step": "exit"
-    },
-    {
-      "label": "input_failure",
-      "output": {
-        "type": "text",
-        "data": "This happens when the end user don't put the expected input data"
-      },
-      "next_step":  "exit"
-    },
-    {
-      "label": "external_request_failure",
-      "output": {
-        "type": "text",
-        "data": "This happens when a response is outside the range 200-299"
-      },
-      "next_step":  "exit"
-    },
-    {
-      "label": "fallback_instruction",
-      "output": {
-        "type": "text",
-        "data": "This happens when a state is missing"
-      },
-      "next_step": "exit"
     }
   ]
 }
 ```
 
-Every bot starts it's execution in the 'initial' state when it receives the first message. Then, the automata follows the flow from state to state assigned in the 'next_step' field.
+The definition of the bot is composed by states. Each one has a `label`, a `next_step` and at least one `output` or 
+`input`.
 
-##Getting started 2
+Every bot starts it's execution in the state 'initial' when the user does the first input. Then, it goes to the next 
+state: 'helloworld'. There, the bot will output  'Hello World!' and go to 'exit', where the bot reach the end of 
+execution.
+
+##Basic bot
+
+```json
+{
+    "input_retry": 3,
+    "definition": [
+        {
+            "label": "initial",
+            "input": {
+                "variable": "first_text_from_user",
+                "action": "free_text"
+            },
+            "next_step": "choice"
+        },
+        {
+            "label": "choice",
+            "output": {
+                "type": "text",
+                "data": "Here you have a choice:",
+                "keyboard": [
+                    {"label": "RED", "data": "RED"},
+                    {"label": "BLUE", "data": "BLUE"},
+                    {"label": "GREEN", "data": "GREEN"}
+                ]
+            },
+            "input": {
+                "action": "get_in_set",
+                "action_parameters": [
+                    "RED", "BLUE", "GREEN"
+                ],
+                "variable": "user_choice"
+            },
+            "next_step": "result"
+        },
+        {
+            "label": "result",
+            "output": "You're choice was {{user_choice}}",
+            "next_step": "choice"
+        },
+        {
+            "label": "input_failure",
+            "output": "You have put an unexpected input 3 times!",
+            "next_step": "choice"
+        }
+    ]
+}
+```
+
+A complete bot usually never ends, it loops back to previous states. Also, it can use variables and other forms of 
+`input` and `output` other than simple text.
+
+In this case, after the first text of the user, this bot will show two quick replies ('RED', 'BLUE' and 'GREEN'). The 
+user can click them or write itself the response. 
+ 
+Then, the bot expects an input string that can be 'RED', 'BLUE' or 'GREEN', store it in the variable `user_choice` 
+and go to the next state `result`.
+
+* If the user wrote anything else, the chatbot would reply with the possible options in a message like "Please, 
+choose one of the following values: RED, BLUE" at most `input_retry` times. If it fails all 3 times it will go to the 
+state `input_failure`.
+
+Finally, in the state `result` the bot sends a text message saying what was the pick of the user and returns to the 
+`choice` state.
 
 #Top level properties
 
@@ -97,7 +127,7 @@ Every bot starts it's execution in the 'initial' state when it receives the firs
 }
 ```
 
-Specifies the number of input failures before the machine goes to the input_failure state. By default is set to 3.
+Specifies the number of input failures before the machine goes to the `input_failure` state. By default is set to 3.
 
 ##name
 
@@ -109,9 +139,13 @@ Specifies the number of input failures before the machine goes to the input_fail
 
 The name of the bot.
 
-##language *(not used)*
+##language
 
-Display languaje of the bot, languaje of output messages.
+Indicates the language the bot will use. Currently this field is not used.
+
+<aside class="softwarn">
+Currently this field is not used.
+</aside>
 
 ##defaults
 
@@ -131,15 +165,16 @@ Display languaje of the bot, languaje of output messages.
 }
 ```
 
-Defines the default values that are used throughout the chatbot life in different features:
+Defines the default values that are used throughout the chatbot flow in different states:
 
 * **requests**
 
-  Currently only supports default `headers` to be used in every request.
+  Currently only supports default `headers` to be used in every url request.
 
 * **context**
 
-  Variables that will be always available at any state of the bot. They are recalculed in each state change.
+  Variables that will be always available at any state of the bot. They are recalculed every time there is an input, 
+  so, if a bot definition is changed, previous conversations will have updated variables.
 
 ##triggers
 
@@ -169,13 +204,21 @@ Defines the default values that are used throughout the chatbot life in differen
 }
 ```
 
-Commands that are available at any point during the bot execution, regardless of its current state.`text` triggers can be fired by user inputs or payloads, while `payload` triggers can not be fired by user messages. Triggers are matched with regular expressions, if the regexp contains named groups, those will be added to the bot context with the corresponding matched value. Usually triggers are used to capture button clicks (what Facebook calls 'Postbacks') and general commands like "help". When a user input is captured by a trigger, it is not consumed by the current state.
+Commands that are available at any point during the bot execution, regardless of its current state.`text` triggers 
+can be fired by user inputs or payloads, while `payload` triggers can not be fired by user messages. Triggers are 
+matched with regular expressions, if the regexp contains named groups, those will be added to the bot context with 
+the corresponding matched value. Usually triggers are used to capture button clicks (what Facebook calls 'Postbacks')
+ and general commands like "help". When a user input is captured by a trigger, it is not consumed by the current state.
 
-Triggers must have valid `next_step` and `match` attributes. If next step is `null` the bot will consume that input without any change, which is useful if we want to ignore some words. See [next_step](#next_step) reference for more info.
+Triggers must have valid `next_step` and `match` attributes. If next step is `null` the bot will consume that input 
+without any change, which is useful if we want to ignore some words. See [next_step](#next_step) reference for more 
+info.
 
 ##definition
 
-The array of possible states of the bot. The first state should be named **initial** and should **NOT** have output. When the bot enters a state, the first thing it does is to update the context, then writting all the outputs (if any) and finally wait for a user input (if defined). Either `output` or `input` must be defined.
+The array of possible states of the bot. The first state should be named **initial** and should **NOT** have output. 
+When the bot enters a state, the first thing it does is to update the context, then writting all the outputs (if any)
+ and finally wait for a user input (if defined). Either `output` or `input` must be defined.
 
 ###label
 
@@ -342,7 +385,8 @@ TODO
 }
 ```
 
-A rich interactive message that displays a horizontal scrollable carousel of items, each composed of an image attachment, short description and buttons to request input from the user.
+A rich interactive message that displays a horizontal scrollable carousel of items, each composed of an image 
+attachment, short description and buttons to request input from the user.
 
 <img width="300" src="/images/carrousel.png">
 
@@ -400,7 +444,8 @@ IMPORTANT: The carrousel output is only available on Facebook. Currently other p
 }
 ```
 
-Quick Replies are a convenient way to let users know the available options to type. Also, they save the end-user the effort to type all words and let them navigate through options much faster.
+Quick Replies are a convenient way to let users know the available options to type. Also, they save the end-user the 
+effort to type all words and let them navigate through options much faster.
 
 Any message type accepts a `"keyboard"` field with an array of (`"label"`, `"data"`) pairs.
 
@@ -522,7 +567,8 @@ Saves a number representing the age. Age should match 1 <= age < 120
 }
 ```
 
-The variable location will contain the components: `latitude` , `longitude`, `title`, `address`, `url`. For field info see [location](#location).
+The variable location will contain the components: `latitude` , `longitude`, `title`, `address`, `url`. For field 
+info see [location](#location).
 IMPORTANT: The get location input is only available on Facebook. 
 
 ##Get image
@@ -537,31 +583,38 @@ IMPORTANT: The get image input is only available on Facebook.
 #AI integration
 You are able to use watson or api.ai bots to manage the botSON flow. 
 ```json
-"ai_backends":{
-  "watson": {
-    "username": "(id)",
-    "password": "(pass)",
-    "workspace_id": "(w_id)"
-  },
-  "api_ai":{
+{
+  "ai_backends":{
+    "watson": {
+      "username": "(id)",
+      "password": "(pass)",
+      "workspace_id": "(w_id)"
+    },
+    "api_ai":{
     "token":"(token)"
   }
-},
+}
+}
 ```
 To start just configure the credentials
 
 ```json
-"input":{
+{
+  "input":{
     "action":"get_intent",
     "variable":"variable_name"
+  }
 }
 ```
 ```json
-"context":{
-    "ai_result_name_var":"ai_conversation(ai_backends, _input)"
+{
+  "context": {
+    "ai_result_name_var": "ai_conversation(ai_backends, _input)"
+  }
 }
 ```
-Then you can call the ai in two different ways. The object return has `intent`, `entities` and `raw`. Where raw is the full API response.
+Then you can call the ai in two different ways. The object return has `intent`, `entities` and `raw`. Where raw is 
+the full API response.
 #Templating
 
 See [Jinja](http://jinja.pocoo.org/).
