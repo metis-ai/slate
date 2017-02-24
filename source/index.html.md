@@ -11,7 +11,7 @@ toc_footers:
 search: true
 
 <!--
-    Aside key:
+    Aside options:
         <tag>         <color>      <use>
         success     - green     ->
         notice      - blue      -> observations
@@ -682,6 +682,11 @@ IMPORTANT: The get location input is only available on Facebook.
 ```
 It will save in the variable the url given by the provider ( facebook )
 IMPORTANT: The get image input is only available on Facebook. 
+
+#Templating
+
+See [Jinja](http://jinja.pocoo.org/).
+
 #AI integration
 You are able to use watson or api.ai bots to manage the botSON flow. 
 ```json
@@ -717,6 +722,3 @@ To start just configure the credentials
 ```
 Then you can call the ai in two different ways. The object return has `intent`, `entities` and `raw`. Where raw is 
 the full API response.
-#Templating
-
-See [Jinja](http://jinja.pocoo.org/).
