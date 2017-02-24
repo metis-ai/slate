@@ -286,7 +286,7 @@ Currently this field is not used.
     </span><span class="nt">"text"</span><span class="p">:[</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="nt">"match"</span><span class="p">:</span><span class="s2">"trigger_(?P&lt;id&gt;\\w+)"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"next_step"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trigger_id"</span><span class="w">
+        </span><span class="nt">"next_step"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trigger_{{id}}"</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="nt">"match"</span><span class="p">:</span><span class="s2">"help"</span><span class="p">,</span><span class="w">
@@ -296,21 +296,74 @@ Currently this field is not used.
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Commands that are available at any point during the bot execution, regardless of its current state.<code class="prettyprint">text</code> triggers 
-can be fired by user inputs or payloads, while <code class="prettyprint">payload</code> triggers can not be fired by user messages. Triggers are 
-matched with regular expressions, if the regexp contains named groups, those will be added to the bot context with 
-the corresponding matched value. Usually triggers are used to capture button clicks (what Facebook calls &#39;Postbacks&rsquo;)
- and general commands like &ldquo;help&rdquo;. When a user input is captured by a trigger, it is not consumed by the current state.</p>
+<p>Triggers are commands that are available at any point during the bot execution, regardless of its current state.</p>
 
-<p>Triggers must have valid <code class="prettyprint">next_step</code> and <code class="prettyprint">match</code> attributes. If next step is <code class="prettyprint">null</code> the bot will consume that input 
-without any change, which is useful if we want to ignore some words. See <a href="#next_step">next_step</a> reference for more 
+<ul>
+<li><p><code class="prettyprint">text</code> triggers can be fired by user inputs or payloads</p></li>
+<li><p><code class="prettyprint">payload</code> triggers can not be fired by user messages. <em>(Higher priority than text triggers.)</em></p></li>
+</ul>
+
+<p>Triggers are matched with regular expressions. If the regexp contains named groups, those will be added as variables
+with the corresponding matched value. When a user input is captured by a trigger, it is not consumed by the current
+state.</p>
+
+<p>Triggers must have valid <code class="prettyprint">next_step</code> and <code class="prettyprint">match</code> attributes. If <code class="prettyprint">next_step</code> is <code class="prettyprint">null</code> the bot will consume that input 
+without any change, which is useful if you want to ignore some words. See <a href="#next_step">next_step</a> reference for more 
 info.</p>
+
+<p>Usually triggers are used to capture button clicks (what Facebook calls &#39;Postbacks&rsquo;) and general commands like &ldquo;help&rdquo;.</p>
 
 <h2 id="definition">definition</h2>
 
-<p>The array of possible states of the bot. The first state should be named <strong>initial</strong> and should <strong>NOT</strong> have output. 
-When the bot enters a state, the first thing it does is to update the context, then writting all the outputs (if any)
- and finally wait for a user input (if defined). Either <code class="prettyprint">output</code> or <code class="prettyprint">input</code> must be defined.</p>
+<p>This field contains an array of all the states of the bot.</p>
+
+<p>When the bot enters a state, the first thing it does is to update the context, then it writes all the outputs
+(if any) and finally wait for a user input (if defined).</p>
+
+<aside class="warning">
+IMPORTANT: Either 'output&rsquo; or 'input&rsquo; must be defined in each state.
+</aside>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"definition"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"initial"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"input"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"free-text"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"first_input_from_user"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"data_of_output"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"next_step"</span><span class="p">:</span><span class="w"> </span><span class="s2">"next_state_in_flow"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"next_state_in_flow"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"context"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"variable_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"variable_value"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"data_of_output_in_array"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"another_output_in_array"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"variable_name value: {{variable_name}}"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">"next_step"</span><span class="p">:</span><span class="w"> </span><span class="s2">"next_state_in_flow"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>It is required a state named <code class="prettyprint">initial</code>, that is the first state in the execution flow. <code class="prettyprint">initial</code> will only start 
+after the user sends it&rsquo;s first input. Then, it will update the context, write the outputs and go to <code class="prettyprint">next_step</code>. It 
+is recomended that no state go to <code class="prettyprint">initial</code>.</p>
 
 <h3 id="label">label</h3>
 
@@ -320,26 +373,25 @@ When the bot enters a state, the first thing it does is to update the context, t
 
 <p><em>(Optional)</em></p>
 
-<p>Variables to be saved when entering the state.</p>
+<p>Variables to be assigned when entering the state.</p>
 
 <h3 id="output">output</h3>
 
 <p><em>(Optional)</em></p>
 
-<p>The bot will output the data defined here. It has different possible <a href="#output-types">data types</a>.</p>
+<p>The bot will send in order all outputs defined here. It has different possible <a href="#output-types">data types</a>.</p>
 
 <h3 id="input">input</h3>
 
 <p><em>(Optional)</em></p>
 
-<p>Input from the user. The field &ldquo;actions&rdquo; specifies the expected <a href="#input-actions">type of input</a>.</p>
+<p>Input of the bot. It can come from the user or as a response to url calls. The field &ldquo;actions&rdquo; specifies the expected 
+<a href="#input-actions">type of input</a>.</p>
 
 <h3 id="next_step">next_step</h3>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"next_step"</span><span class="p">:</span><span class="w"> </span><span class="s2">"another_state"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>Next state to jump after all steps: <strong>context , output, input</strong>.</p>
+
+<p>Name of the next state in the flow of the bot. For a conditional next_step (i.e. jumping to different states 
+depending of variables) see <a href="#templating">templating</a>.</p>
 
 <h1 id="output-types">Output types</h1>
 
