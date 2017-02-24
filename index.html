@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>botSON Reference</title>
+    <title>API Documentation</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -88,7 +88,7 @@
     </style>
     <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all.js"></script>
+      <script src="javascripts/all_nosearch.js"></script>
     <link href="images/favicon.ico" rel="icon" type="image/ico" />
   </head>
 
@@ -101,16 +101,8 @@
     </a>
     <div class="tocify-wrapper">
       <img src="images/logo.png" alt="Logo" />
-        <div class="search">
-          <input type="text" class="search" id="input-search" placeholder="Search">
-        </div>
-        <ul class="search-results"></ul>
       <div id="toc">
       </div>
-        <ul class="toc-footer">
-            <li><a href='https://hubtype.com/'>Hubtype</a></li>
-            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
-        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
@@ -401,16 +393,12 @@ depending of variables) see <a href="#templating">templating</a>.</p>
   </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Echo!"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>TODO</p>
-
 <h2 id="image">Image</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://this.is.the/url/of/the/image.jpg"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>TODO</p>
-
 <h2 id="video">Video</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"video"</span><span class="p">,</span><span class="w">
@@ -418,8 +406,6 @@ depending of variables) see <a href="#templating">templating</a>.</p>
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
-<p>TODO</p>
-
 <h2 id="audio">Audio</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"audio"</span><span class="p">,</span><span class="w">
@@ -427,16 +413,12 @@ depending of variables) see <a href="#templating">templating</a>.</p>
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
-<p>TODO</p>
-
 <h2 id="document">Document</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"document"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://this.is.the/url/of/the/document.pdf"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>TODO</p>
-
 <h2 id="location">Location</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"location"</span><span class="p">,</span><span class="w">
@@ -486,8 +468,8 @@ depending of variables) see <a href="#templating">templating</a>.</p>
 </tr>
 </tbody></table>
 
-<aside class="warning">
-IMPORTANT: The Location Output is not available on Facebook.
+<aside class="softwarn">
+NOTE: The Location Output is not available on Facebook.
 </aside>
 
 <h2 id="contact">Contact</h2>
@@ -499,7 +481,71 @@ IMPORTANT: The Location Output is not available on Facebook.
   </span><span class="nt">"vcard"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vcard:data"</span><span class="w">                 </span><span class="err">//Optional</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>TODO</p>
+<h2 id="buttonmessage">Buttonmessage</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buttonmessage"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pick one option"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"buttons"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="s2">"postback"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="s2">"Option 1"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"payload"</span><span class="p">:</span><span class="s2">"POSTBACK_1"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="s2">"postback"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="s2">"Option 2"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"payload"</span><span class="p">:</span><span class="s2">"POSTBACK_2"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="s2">"web_url"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="s2">"Web url"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="s2">"https://www.google.es/"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"phone_number"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"title"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Call"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"payload"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"{% raw %}+44 7700 900200{% endraw %}"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>A collection of at most 4 buttons displayed vertically.</p>
+
+<h3 id="button">Button:</h3>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th style="text-align: center">Value</th>
+<th style="text-align: right"></th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td style="text-align: center">&ldquo;web_url&rdquo;, &ldquo;postback&rdquo; or &ldquo;phone_number&rdquo;</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>title</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>url</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"><em>mandatory if type is &ldquo;web_url&rdquo;</em></td>
+</tr>
+<tr>
+<td>payload</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"><em>mandatory if type is &ldquo;postback&rdquo; or &ldquo;phone_number&rdquo;</em></td>
+</tr>
+</tbody></table>
+
+<aside class="softwarn">
+NOTE: The messagebutton output is only available on Facebook and Telegram. Also, phone_number button type only is 
+available on Facebook. Currently other platforms will ignore that output.
+</aside>
 
 <h2 id="carrousel">Carrousel</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -622,8 +668,8 @@ attachment, short description and buttons to request input from the user.</p>
 
 <p><code class="prettyprint">web_url</code>: this type of buttons open the <code class="prettyprint">url</code> in a browser.</p>
 
-<aside class="warning">
-IMPORTANT: The carrousel output is only available on Facebook. Currently other platforms will ignore that output.
+<aside class="softwarn">
+NOTE: The carrousel output is only available on Facebook. Currently other platforms will ignore that output.
 </aside>
 
 <h2 id="quick-replies">Quick Replies</h2>
@@ -651,9 +697,13 @@ effort to type all words and let them navigate through options much faster.</p>
 
 <p>Any message type accepts a <code class="prettyprint">&quot;keyboard&quot;</code> field with an array of (<code class="prettyprint">&quot;label&quot;</code>, <code class="prettyprint">&quot;data&quot;</code>) pairs.</p>
 
+<aside class="softwarn">
+NOTE: Telegram only uses 'label&rsquo;, not 'data&rsquo;.
+</aside>
+
 <h1 id="input-actions">Input actions</h1>
 
-<p>The data will be stored in the specified variable.</p>
+<p>The data will be stored in the specified variable. To access the variable see <a href="#templating">Templating</a>.</p>
 
 <h2 id="free-text">Free Text</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
