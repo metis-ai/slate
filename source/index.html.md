@@ -9,6 +9,19 @@ toc_footers:
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 search: true
+
+<!--
+    Aside key:
+        <tag>         <color>      <use>
+        success     - green     ->
+        notice      - blue      -> observations
+        softwarn    - yellow    -> warn,        things that is better to know
+        warning     - red       -> danger,      things that make botson not work
+
+    <aside class="tag">
+    Currently this field is not used.
+    </aside>
+-->
 ---
 
 #Introduction
@@ -314,8 +327,6 @@ depending of variables) see [templating](#templating).
 }
 ```
 
-TODO
-
 ##Image
 
 ```json
@@ -324,8 +335,6 @@ TODO
   "data": "http://this.is.the/url/of/the/image.jpg"
 }
 ```
-
-TODO
 
 ##Video
 
@@ -337,8 +346,6 @@ TODO
 
 ```
 
-TODO
-
 ##Audio
 
 ```json
@@ -349,8 +356,6 @@ TODO
 
 ```
 
-TODO
-
 ##Document
 
 ```json
@@ -359,8 +364,6 @@ TODO
   "data": "http://this.is.the/url/of/the/document.pdf"
 }
 ```
-
-TODO
 
 ##Location
 
@@ -384,8 +387,8 @@ TODO
 | address   | String      |  *optional*  |
 | url       | String      |  *optional*  |
 
-<aside class="warning">
-IMPORTANT: The Location Output is not available on Facebook.
+<aside class="softwarn">
+NOTE: The Location Output is not available on Facebook.
 </aside>
 
 ##Contact
@@ -400,7 +403,51 @@ IMPORTANT: The Location Output is not available on Facebook.
 }
 ```
 
-TODO
+##Buttonmessage
+```json
+{
+  "type": "buttonmessage",
+  "text": "Pick one option",
+  "buttons": [
+    {
+      "type":"postback",
+      "title":"Option 1",
+      "payload":"POSTBACK_1"
+    },
+    {
+      "type":"postback",
+      "title":"Option 2",
+      "payload":"POSTBACK_2"
+    },
+    {
+      "type":"web_url",
+      "title":"Web url",
+      "url":"https://www.google.es/"
+    },
+    {
+      "type" : "phone_number",
+      "title" : "Call",
+      "payload" : "{% raw %}+44 7700 900200{% endraw %}"
+    }
+  ]
+}
+```
+
+A collection of at most 4 buttons displayed vertically.
+
+###Button:
+
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| type      | "web_url", "postback" or "phone_number" | |
+| title  | String  |   |
+| url  | String  | *mandatory if type is "web_url"*  |
+| payload  | String  | *mandatory if type is "postback" or "phone_number"* |
+
+<aside class="softwarn">
+NOTE: The messagebutton output is only available on Facebook and Telegram. Also, phone_number button type only is 
+available on Facebook. Currently other platforms will ignore that output.
+</aside>
 
 ##Carrousel
 
@@ -468,8 +515,8 @@ attachment, short description and buttons to request input from the user.
 
 `web_url`: this type of buttons open the `url` in a browser.
 
-<aside class="warning">
-IMPORTANT: The carrousel output is only available on Facebook. Currently other platforms will ignore that output.
+<aside class="softwarn">
+NOTE: The carrousel output is only available on Facebook. Currently other platforms will ignore that output.
 </aside>
 
 ##Quick Replies
@@ -500,9 +547,13 @@ effort to type all words and let them navigate through options much faster.
 
 Any message type accepts a `"keyboard"` field with an array of (`"label"`, `"data"`) pairs.
 
+<aside class="softwarn">
+NOTE: Telegram only uses 'label', not 'data'.
+</aside>
+
 #Input actions
 
-The data will be stored in the specified variable.
+The data will be stored in the specified variable. To access the variable see [Templating](#templating).
 
 ##Free Text
 
