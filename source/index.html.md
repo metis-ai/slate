@@ -136,19 +136,28 @@ Finally, in the state `result` the bot sends a text message saying what was the 
 
 ```json
 {
-  "input_retry": 2
+  "input_retry": 2,
+  "name": "The Weather Bot",
+  "defaults": {
+    "requests": {
+      "headers": {
+        "Authorization": "Bearer mytoken"
+      }
+    },
+    "context": {
+      "API_URL": "https://api.example.com",
+      "foo": "bar"
+    }
+  },
+  "triggers":{...},
+  "definition":{...}
 }
 ```
 
 Specifies the number of input failures before the machine goes to the `input_failure` state. By default is set to 3.
+An input failure is given when the [type of input](#input-actions) doesn't match the required data. 
 
 ##name
-
-```json
-{
-  "name": "The Weather Bot"
-}
-```
 
 The name of the bot.
 
@@ -161,22 +170,6 @@ Currently this field is not used.
 </aside>
 
 ##defaults
-
-```json
-{
-  "defaults": {
-    "requests": {
-      "headers": {
-        "Authorization": "Bearer mytoken"
-      }
-    },
-    "context": {
-      "API_URL": "https://api.example.com",
-      "foo": "bar"
-    }
-  }
-}
-```
 
 Defines the default values that are used throughout the chatbot flow in different states:
 
@@ -323,9 +316,11 @@ depending of variables) see [templating](#templating).
 ```json
 {
   "type": "text",
-  "data": "Echo!"
+  "data": "Done!"
 }
 ```
+
+Sends a text message with the `data`. This text can contain ASCII characters and emojis.
 
 ##Image
 
@@ -573,7 +568,7 @@ The data will be stored in the specified variable. To access the variable see [T
 }
 ```
 
-TODO
+Accepts any integer as input , other kinds of inputs are rejected
 
 ##Get in Set
 
@@ -608,7 +603,7 @@ Same as get in set, but it does not require a perfect match.
 }
 ```
 
-TODO
+The accepted outputs are `yes`, `si`, `sí` and `no` in lowercase or uppercase.
 
 ##Get from url
 
@@ -626,17 +621,18 @@ TODO
 }
 ```
 
-TODO - it makes a call to the url and stores the response
+It makes a call to the url and stores the response json object in the variable name.
 
 ##Get name
 
 ```json
 {
-
+    "variables":"confirm_get_name",
+    "action":"get_name"
 }
 ```
 
-TODO
+The user input should be a text with at most 3 words
 
 ##Get email
 
