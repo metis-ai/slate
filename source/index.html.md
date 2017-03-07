@@ -319,8 +319,10 @@ depending of variables) see [templating](#templating).
   "data": "Done!"
 }
 ```
-
-Sends a text message with the `data`. This text can contain ASCII characters and emojis.
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| type      | "text" | |
+| data      | String      | *ASCII and emojis*|
 
 ##Image
 
@@ -330,6 +332,11 @@ Sends a text message with the `data`. This text can contain ASCII characters and
   "data": "http://this.is.the/url/of/the/image.jpg"
 }
 ```
+
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| type      | "image" | |
+| data      | String      | *The image URL*|
 
 ##Video
 
@@ -341,24 +348,42 @@ Sends a text message with the `data`. This text can contain ASCII characters and
 
 ```
 
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| type      | "video" | |
+| data      | String      | |
+
 ##Audio
 
 ```json
 {
   "type": "audio",
-  "data": "http://this.is.the/url/of/the/audio.mp3"
+  "data": "http://this.is.the/url/of/the/audio.mp3",
+  "caption": "Some video subtitle"
 }
 
 ```
+
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| type      | "audio" | |
+| data      | String      | |
+| caption   | String      | *optional*|
 
 ##Document
 
 ```json
 {
   "type": "document",
-  "data": "http://this.is.the/url/of/the/document.pdf"
+  "data": "http://this.is.the/url/of/the/document.pdf",
+  "caption": "Some document subtitle"
 }
 ```
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| type      | "image" | |
+| data      | String      | |
+| caption   | String      | *optional*|
 
 ##Location
 
@@ -392,11 +417,19 @@ NOTE: The Location Output is not available on Facebook.
 {
   "type": "contact",
   "first_name": "John",
-  "last_name": "Doe",                   //Optional
-  "phone_number": "678909909",          //Optional
-  "vcard": "vcard:data"                 //Optional
+  "last_name": "Doe",
+  "phone_number": "678909909",
+  "vcard": "vcard:data"                 
 }
 ```
+
+| Field       | Value           |   |
+| ---------   |:-------------:| -----:|
+| type        | "contact" | |
+| first_name  | String      |    |
+| last_name   | String      |  *optional*  |
+| phone_number| Number      |  *optional*  |
+| vcard       | String      |  *optional*  |
 
 ##Buttonmessage
 ```json
@@ -436,8 +469,12 @@ A collection of at most 4 buttons displayed vertically.
 | --------- |:-------------:| -----:|
 | type      | "web_url", "postback" or "phone_number" | |
 | title  | String  |   |
+| webview_height_ratio | String | *Possible in web_url* |
+| messenger_extensions | String | *Possible in web_url* |
+| fallback_url         | String | *Possible in web_url* | 
 | url  | String  | *mandatory if type is "web_url"*  |
 | payload  | String  | *mandatory if type is "postback" or "phone_number"* |
+
 
 <aside class="softwarn">
 NOTE: The messagebutton output is only available on Facebook and Telegram. Also, phone_number button type only is 
@@ -545,6 +582,40 @@ Any message type accepts a `"keyboard"` field with an array of (`"label"`, `"dat
 <aside class="softwarn">
 NOTE: Telegram only uses 'label', not 'data'.
 </aside>
+
+##List
+```json
+{
+    "type": "list",
+    "elements": [{
+        "title": "First title",
+        "subtitle": "Some subtitle",
+        "image_url": "https://www.url/g/image.png",
+        "buttons": [{
+            "type" : "phone_number",
+            "title" : "Call",
+            "payload" : "{% raw %}+44 7700 900200{% endraw %}"
+        }]
+        },
+        {
+        "title": "Second title",
+        "subtitle": "Oh my god",
+        "image_url": "https://ToBeOrNot.ToBe.an.url/image.jpg",
+        "buttons": [{
+            "type": "web_url",
+            "title": "Go details",
+            "url": "http://www.details.url/#section"
+
+        }]
+    }]
+}
+```
+
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| type      | "list" | |
+| elements  | Array of Elements  | *min 2 elements <br> max 4 elements*   |
+
 
 #Input actions
 
@@ -716,5 +787,12 @@ To start just configure the credentials
   }
 }
 ```
-Then you can call the ai in two different ways. The object return has `intent`, `entities` and `raw`. Where raw is 
-the full API response.
+Then you can call the ai in two different ways.
+<br><br>The object return has `intent`, `entities` and `raw`. Where raw is 
+the full API response. The object saved in the variable will have the following structure.
+
+| Field     | Value           |   |
+| --------- |:-------------:| -----:|
+| intent      | String | |
+| entities    | String | |
+| raw         | Object | *Depending on your AI the object <br>could have different structures* |
