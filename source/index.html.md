@@ -1,27 +1,12 @@
 ---
 title: botSON Reference
 
-<!--language_tabs:
-  - json-->
-
 toc_footers:
   - <a href='https://hubtype.com/'>Hubtype</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 search: true
 
-<!--
-    Aside options:
-        <tag>         <color>      <use>
-        success     - green     ->
-        notice      - blue      -> observations
-        softwarn    - yellow    -> warn,        things that is better to know
-        warning     - red       -> danger,      things that make botson not work
-
-    <aside class="tag">
-    Currently this field is not used.
-    </aside>
--->
 ---
 
 #Introduction
@@ -149,8 +134,8 @@ Finally, in the state `result` the bot sends a text message saying what was the 
       "foo": "bar"
     }
   },
-  "triggers":{...},
-  "definition":{...}
+  "triggers":{},
+  "definition":{}
 }
 ```
 
@@ -232,10 +217,6 @@ This field contains an array of all the states of the bot.
 
 When the bot enters a state, the first thing it does is to update the context, then it writes all the outputs
 (if any) and finally wait for a user input (if defined).
-
-<aside class="warning">
-IMPORTANT: Either 'output' or 'input' must be defined in each state.
-</aside>
 
 ```json
 {
@@ -475,7 +456,6 @@ A collection of at most 4 buttons displayed vertically.
 | url  | String  | *mandatory if type is "web_url"*  |
 | payload  | String  | *mandatory if type is "postback" or "phone_number"* |
 
-
 <aside class="softwarn">
 NOTE: The messagebutton output is only available on Facebook and Telegram. Also, phone_number button type only is 
 available on Facebook. Currently other platforms will ignore that output.
@@ -523,29 +503,52 @@ attachment, short description and buttons to request input from the user.
 | Field     | Value           |   |
 | --------- |:-------------:| -----:|
 | type      | "carrousel" | |
-| elements  | Array of Elements  | *10 elements max (will truncate)*   |
+| elements  | Array of Elements  | *10 elements max (will truncate)* |
 
 ###Element:
 
 | Field     | Value           |   |
 | --------- |:-------------:| -----:|
 | title      | String | |
-| subtitle  | String  |   |
-| image_url  | String  |   |
-| buttons  | Array of Buttons  | *3 elements max (will truncate)*  |
+| subtitle  | String  | |
+| image_url  | String  | |
+| [buttons](#buttonmessage)  | Array of Buttons  | *3 elements max (will truncate)* |
 
-###Button:
+<aside class="softwarn">
+NOTE: The carrousel output is only available on Facebook. Currently other platforms will ignore that output.
+</aside>
+
+##List
+```json
+{
+    "type": "list",
+    "elements": [{
+        "title": "First title",
+        "subtitle": "Some subtitle",
+        "image_url": "https://www.url/g/image.png",
+        "buttons": [{
+            "type" : "phone_number",
+            "title" : "Call",
+            "payload" : "{% raw %}+44 7700 900200{% endraw %}"
+        }]
+        },
+        {
+        "title": "Second title",
+        "subtitle": "Oh my god",
+        "image_url": "https://ToBeOrNot.ToBe.an.url/image.jpg",
+        "buttons": [{
+            "type": "web_url",
+            "title": "Go details",
+            "url": "http://www.details.url/#section"
+
+        }]
+    }]
+}
+```
 
 | Field     | Value           |   |
 | --------- |:-------------:| -----:|
-| type      | "web_url" or "postback" | |
-| title  | String  |   |
-| url  | String  | *mandatory if type is "web_url"*  |
-| payload  | String  | *mandatory if type is "postback"* |
-
-`postback`: this type of buttons act as if the end-user typed the title of the button.
-
-`web_url`: this type of buttons open the `url` in a browser.
+| [elements](#carrousel) | Array of Elements  | *min 2 elements <br> max 4 elements*   |
 
 <aside class="softwarn">
 NOTE: The carrousel output is only available on Facebook. Currently other platforms will ignore that output.
@@ -583,94 +586,71 @@ Any message type accepts a `"keyboard"` field with an array of (`"label"`, `"dat
 NOTE: Telegram only uses 'label', not 'data'.
 </aside>
 
-##List
-```json
-{
-    "type": "list",
-    "elements": [{
-        "title": "First title",
-        "subtitle": "Some subtitle",
-        "image_url": "https://www.url/g/image.png",
-        "buttons": [{
-            "type" : "phone_number",
-            "title" : "Call",
-            "payload" : "{% raw %}+44 7700 900200{% endraw %}"
-        }]
-        },
-        {
-        "title": "Second title",
-        "subtitle": "Oh my god",
-        "image_url": "https://ToBeOrNot.ToBe.an.url/image.jpg",
-        "buttons": [{
-            "type": "web_url",
-            "title": "Go details",
-            "url": "http://www.details.url/#section"
-
-        }]
-    }]
-}
-```
-
-| Field     | Value           |   |
-| --------- |:-------------:| -----:|
-| type      | "list" | |
-| elements  | Array of Elements  | *min 2 elements <br> max 4 elements*   |
-
-
 #Input actions
 
-The data will be stored in the specified variable. To access the variable see [Templating](#templating).
+`"Action"` specifies what is the expected action and `"data"` will be stored in the specified variable. To access the 
+variable see [Templating](#templating).
 
 ##Free Text
 
 ```json
 {
-  "variable": "text_var_name",
-  "action": "free_text"
+  "action": "free_text",
+  "variable": "text_var_name"
 }
 ```
+
+Accepts any text from the user and stores it in the variable.
 
 ##Get Integer
 
 ```json
 {
-  "variable": "name_of_int_var",
-  "action": "get_int"
+  "action": "get_int",
+  "variable": "name_of_int_var"
 }
 ```
 
-Accepts any integer as input , other kinds of inputs are rejected
+Accepts any integer as input , other kinds of inputs are rejected.
 
 ##Get in Set
 
 ```json
 {
-  "variable": "name_of_option",
   "action": "get_in_set",
+  "variable": "name_of_option",
   "action_parameters": ["op1", "op2"]
 }
 ```
 
 Only accepts these parameters as answer. It will ask at most `input_retry` times.
 
+| Field     | Value           |
+| --------- |:-------------:|
+| action_parameters | Array of strings |
+
 ##Get in Set Fuzzy
 
 ```json
 {
-  "variable": "object_user_choice",
   "action": "get_in_set_fuzzy",
+  "variable": "object_user_choice",
   "action_parameters": ["object1", "object2"]
 }
 ```
 
 Same as get in set, but it does not require a perfect match.
 
+| Field     | Value           |
+| --------- |:-------------:|
+| action_parameters | Array of strings |
+
 ##Get yes or no
 
 ```json
 {
-  "variable": "confirm_var_name",
-  "action": "get_yes_no"
+  "action": "get_yes_no",
+  "variable": "confirm_var_name"
 }
 ```
 
@@ -680,8 +660,8 @@ The accepted outputs are `yes`, `si`, `sí` and `no` in lowercase or uppercase.
 
 ```json
 {
-  "variable": "var_name_to_save",
   "action": "get_from_url",
+  "variable": "var_name_to_save",
   "action_parameters": {
     "url": "{{BASE_URL}}path/search/",
     "params": {
@@ -694,23 +674,28 @@ The accepted outputs are `yes`, `si`, `sí` and `no` in lowercase or uppercase.
 
 It makes a call to the url and stores the response json object in the variable name.
 
+| Field     | Value           |
+| --------- |:-------------:|
+| url | Get url |
+| params | Array of parameters for the get call |
+
 ##Get name
 
 ```json
 {
-    "variables":"confirm_get_name",
-    "action":"get_name"
+  "action":"get_name",
+  "variables":"confirm_get_name"
 }
 ```
 
-The user input should be a text with at most 3 words
+The user input should be a text with at most 3 words.
 
 ##Get email
 
 ```json
 {
-  "variable": "user_email",
-  "action": "get_email"
+  "action": "get_email",
+  "variable": "user_email"
 }
 ```
 
@@ -725,7 +710,7 @@ Gets the email and check if it is well writed. **something@someother**
 }
 ```
 
-Saves a number representing the age. Age should match 1 <= age < 120 
+Saves a number representing the age. Age should match 1 <= age < 120.
 
 ##Get location
 
@@ -738,21 +723,58 @@ Saves a number representing the age. Age should match 1 <= age < 120
 
 The variable location will contain the components: `latitude` , `longitude`, `title`, `address`, `url`. For field 
 info see [location](#location).
-IMPORTANT: The get location input is only available on Facebook. 
+
+<aside class="softwarn">
+NOTE: The get image input is only available on Facebook. Currently other platforms will ignore that output.
+</aside>
 
 ##Get image
 ```json
 {
-  "variable": "the_image_url",
-  "action": "get_image"
+  "action": "get_image",
+  "variable": "the_image_url"
 }
 ```
-It will save in the variable the url given by the provider ( facebook )
-IMPORTANT: The get image input is only available on Facebook. 
+It will save in the variable the url given by the provider.
+
+<aside class="softwarn">
+NOTE: The get image input is only available on Facebook. Currently other platforms will ignore that output.
+</aside>
 
 #Templating
 
 See [Jinja](http://jinja.pocoo.org/).
+
+#Error types
+
+There may be errors during the parsing and execution of a bot. They are of different types inheriting from 
+`BotException`, and are mainly classified as JSON or BotSON related.
+
+| BotException |  |
+| --------- | ------------- |
+| JSONParseException | Raises when the JSON is invalid |
+| BotSONException | Raises otherwise |
+
+##JSONParseException
+
+| Attributes | Contains |
+| --------- | ------------- |
+| message | Reason why the json is invalid |
+| line | Line of the problem in the json |
+| column | Column of the problem in the json |
+
+##BotSONException
+
+| Types |  |
+| --------- | ------------- |
+| BotSONParseException | Raises during parsing |
+| BotSONExecException | Raises during execution |
+
+
+| Attributes | Contains |
+| --------- | ------------- |
+| message | Explanation of the error |
+| trace | Approximate path to the error in the json. _Note: in definition and trigger arrays it will use label/match value instead of index number_  |
 
 #AI integration
 You are able to use watson or api.ai bots to manage the botSON flow. 
