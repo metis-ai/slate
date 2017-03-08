@@ -817,4 +817,6 @@ the full API response. The object saved in the variable will have the following 
 | --------- |:-------------:| -----:|
 | intent      | String | |
 | entities    | String | |
-| raw         | Object | *Depending on your AI the object <br>could have different structures* |
+
+<!-- | raw         | Object | *Depending on your AI the object <br>could have different structures* |
+-->
