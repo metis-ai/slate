@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Documentation</title>
+    <title>botSON Reference</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -88,7 +88,7 @@
     </style>
     <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all_nosearch.js"></script>
+      <script src="javascripts/all.js"></script>
     <link href="images/favicon.ico" rel="icon" type="image/ico" />
   </head>
 
@@ -101,8 +101,16 @@
     </a>
     <div class="tocify-wrapper">
       <img src="images/logo.png" alt="Logo" />
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
       <div id="toc">
       </div>
+        <ul class="toc-footer">
+            <li><a href='https://hubtype.com/'>Hubtype</a></li>
+            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
@@ -213,16 +221,28 @@ state <code class="prettyprint">input_failure</code>.</li>
 
 <h2 id="input_retry">input_retry</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"input_retry"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+  </span><span class="nt">"input_retry"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Weather Bot"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"defaults"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"requests"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer mytoken"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"context"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"API_URL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"foo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bar"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"triggers"</span><span class="p">:{},</span><span class="w">
+  </span><span class="nt">"definition"</span><span class="p">:{}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Specifies the number of input failures before the machine goes to the <code class="prettyprint">input_failure</code> state. By default is set to 3.</p>
+<p>Specifies the number of input failures before the machine goes to the <code class="prettyprint">input_failure</code> state. By default is set to 3.
+An input failure is given when the <a href="#input-actions">type of input</a> doesn&rsquo;t match the required data. </p>
 
 <h2 id="name">name</h2>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Weather Bot"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+
 <p>The name of the bot.</p>
 
 <h2 id="language">language</h2>
@@ -234,20 +254,7 @@ Currently this field is not used.
 </aside>
 
 <h2 id="defaults">defaults</h2>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"defaults"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"requests"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"Authorization"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer mytoken"</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"context"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"API_URL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.example.com"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"foo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bar"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+
 <p>Defines the default values that are used throughout the chatbot flow in different states:</p>
 
 <ul>
@@ -311,10 +318,6 @@ info.</p>
 
 <p>When the bot enters a state, the first thing it does is to update the context, then it writes all the outputs
 (if any) and finally wait for a user input (if defined).</p>
-
-<aside class="warning">
-IMPORTANT: Either 'output&rsquo; or 'input&rsquo; must be defined in each state.
-</aside>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"definition"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
@@ -390,15 +393,53 @@ depending of variables) see <a href="#templating">templating</a>.</p>
 <h2 id="text">Text</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Echo!"</span><span class="w">
+  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Done!"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th style="text-align: center">Value</th>
+<th style="text-align: right"></th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td style="text-align: center">&ldquo;text&rdquo;</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>data</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"><em>ASCII and emojis</em></td>
+</tr>
+</tbody></table>
+
 <h2 id="image">Image</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://this.is.the/url/of/the/image.jpg"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th style="text-align: center">Value</th>
+<th style="text-align: right"></th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td style="text-align: center">&ldquo;image&rdquo;</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>data</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"><em>The image URL</em></td>
+</tr>
+</tbody></table>
+
 <h2 id="video">Video</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"video"</span><span class="p">,</span><span class="w">
@@ -406,19 +447,88 @@ depending of variables) see <a href="#templating">templating</a>.</p>
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th style="text-align: center">Value</th>
+<th style="text-align: right"></th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td style="text-align: center">&ldquo;video&rdquo;</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>data</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"></td>
+</tr>
+</tbody></table>
+
 <h2 id="audio">Audio</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"audio"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://this.is.the/url/of/the/audio.mp3"</span><span class="w">
+  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://this.is.the/url/of/the/audio.mp3"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"caption"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some video subtitle"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th style="text-align: center">Value</th>
+<th style="text-align: right"></th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td style="text-align: center">&ldquo;audio&rdquo;</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>data</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>caption</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"><em>optional</em></td>
+</tr>
+</tbody></table>
+
 <h2 id="document">Document</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"document"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://this.is.the/url/of/the/document.pdf"</span><span class="w">
+  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://this.is.the/url/of/the/document.pdf"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"caption"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some document subtitle"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th style="text-align: center">Value</th>
+<th style="text-align: right"></th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td style="text-align: center">&ldquo;image&rdquo;</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>data</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>caption</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"><em>optional</em></td>
+</tr>
+</tbody></table>
+
 <h2 id="location">Location</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"location"</span><span class="p">,</span><span class="w">
@@ -476,11 +586,45 @@ NOTE: The Location Output is not available on Facebook.
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"contact"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">                   </span><span class="err">//Optional</span><span class="w">
-  </span><span class="nt">"phone_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"678909909"</span><span class="p">,</span><span class="w">          </span><span class="err">//Optional</span><span class="w">
-  </span><span class="nt">"vcard"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vcard:data"</span><span class="w">                 </span><span class="err">//Optional</span><span class="w">
+  </span><span class="nt">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"phone_number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"678909909"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"vcard"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vcard:data"</span><span class="w">                 
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th style="text-align: center">Value</th>
+<th style="text-align: right"></th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td style="text-align: center">&ldquo;contact&rdquo;</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>first_name</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>last_name</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"><em>optional</em></td>
+</tr>
+<tr>
+<td>phone_number</td>
+<td style="text-align: center">Number</td>
+<td style="text-align: right"><em>optional</em></td>
+</tr>
+<tr>
+<td>vcard</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"><em>optional</em></td>
+</tr>
+</tbody></table>
+
 <h2 id="buttonmessage">Buttonmessage</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"buttonmessage"</span><span class="p">,</span><span class="w">
@@ -529,6 +673,21 @@ NOTE: The Location Output is not available on Facebook.
 <td>title</td>
 <td style="text-align: center">String</td>
 <td style="text-align: right"></td>
+</tr>
+<tr>
+<td>webview_height_ratio</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"><em>Possible in web_url</em></td>
+</tr>
+<tr>
+<td>messenger_extensions</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"><em>Possible in web_url</em></td>
+</tr>
+<tr>
+<td>fallback_url</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"><em>Possible in web_url</em></td>
 </tr>
 <tr>
 <td>url</td>
@@ -627,14 +786,42 @@ attachment, short description and buttons to request input from the user.</p>
 <td style="text-align: right"></td>
 </tr>
 <tr>
-<td>buttons</td>
+<td><a href="#buttonmessage">buttons</a></td>
 <td style="text-align: center">Array of Buttons</td>
 <td style="text-align: right"><em>3 elements max (will truncate)</em></td>
 </tr>
 </tbody></table>
 
-<h3 id="button">Button:</h3>
+<aside class="softwarn">
+NOTE: The carrousel output is only available on Facebook. Currently other platforms will ignore that output.
+</aside>
 
+<h2 id="list">List</h2>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"list"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"elements"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"First title"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"subtitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some subtitle"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"image_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.url/g/image.png"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"buttons"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"type"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"phone_number"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"title"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Call"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"payload"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"{% raw %}+44 7700 900200{% endraw %}"</span><span class="w">
+        </span><span class="p">}]</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Second title"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"subtitle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oh my god"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"image_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://ToBeOrNot.ToBe.an.url/image.jpg"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"buttons"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"web_url"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Go details"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://www.details.url/#section"</span><span class="w">
+
+        </span><span class="p">}]</span><span class="w">
+    </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -643,30 +830,11 @@ attachment, short description and buttons to request input from the user.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>type</td>
-<td style="text-align: center">&ldquo;web_url&rdquo; or &ldquo;postback&rdquo;</td>
-<td style="text-align: right"></td>
-</tr>
-<tr>
-<td>title</td>
-<td style="text-align: center">String</td>
-<td style="text-align: right"></td>
-</tr>
-<tr>
-<td>url</td>
-<td style="text-align: center">String</td>
-<td style="text-align: right"><em>mandatory if type is &ldquo;web_url&rdquo;</em></td>
-</tr>
-<tr>
-<td>payload</td>
-<td style="text-align: center">String</td>
-<td style="text-align: right"><em>mandatory if type is &ldquo;postback&rdquo;</em></td>
+<td><a href="#carrousel">elements</a></td>
+<td style="text-align: center">Array of Elements</td>
+<td style="text-align: right"><em>min 2 elements <br> max 4 elements</em></td>
 </tr>
 </tbody></table>
-
-<p><code class="prettyprint">postback</code>: this type of buttons act as if the end-user typed the title of the button.</p>
-
-<p><code class="prettyprint">web_url</code>: this type of buttons open the <code class="prettyprint">url</code> in a browser.</p>
 
 <aside class="softwarn">
 NOTE: The carrousel output is only available on Facebook. Currently other platforms will ignore that output.
@@ -703,52 +871,79 @@ NOTE: Telegram only uses 'label&rsquo;, not 'data&rsquo;.
 
 <h1 id="input-actions">Input actions</h1>
 
-<p>The data will be stored in the specified variable. To access the variable see <a href="#templating">Templating</a>.</p>
+<p><code class="prettyprint">&quot;Action&quot;</code> specifies what is the expected action and <code class="prettyprint">&quot;data&quot;</code> will be stored in the specified variable. To access the 
+variable see <a href="#templating">Templating</a>.</p>
 
 <h2 id="free-text">Free Text</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text_var_name"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"free_text"</span><span class="w">
+  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"free_text"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text_var_name"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+<p>Accepts any text from the user and stores it in the variable.</p>
+
 <h2 id="get-integer">Get Integer</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name_of_int_var"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_int"</span><span class="w">
+  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_int"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name_of_int_var"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>TODO</p>
+<p>Accepts any integer as input , other kinds of inputs are rejected.</p>
 
 <h2 id="get-in-set">Get in Set</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name_of_option"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_in_set"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name_of_option"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"action_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"op1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"op2"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Only accepts these parameters as answer. It will ask at most <code class="prettyprint">input_retry</code> times.</p>
 
+<table><thead>
+<tr>
+<th>Field</th>
+<th style="text-align: center">Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>action_parameters</td>
+<td style="text-align: center">Array of strings</td>
+</tr>
+</tbody></table>
+
 <h2 id="get-in-set-fuzzy">Get in Set Fuzzy</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object_user_choice"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_in_set_fuzzy"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object_user_choice"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"action_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"object1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"object2"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Same as get in set, but it does not require a perfect match.</p>
 
+<table><thead>
+<tr>
+<th>Field</th>
+<th style="text-align: center">Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>action_parameters</td>
+<td style="text-align: center">Array of strings</td>
+</tr>
+</tbody></table>
+
 <h2 id="get-yes-or-no">Get yes or no</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"confirm_var_name"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_yes_no"</span><span class="w">
+  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_yes_no"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"confirm_var_name"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>TODO</p>
+<p>The accepted outputs are <code class="prettyprint">yes</code>, <code class="prettyprint">si</code>, <code class="prettyprint">sí</code> and <code class="prettyprint">no</code> in lowercase or uppercase.</p>
 
 <h2 id="get-from-url">Get from url</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"var_name_to_save"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_from_url"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"var_name_to_save"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"action_parameters"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{BASE_URL}}path/search/"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -758,19 +953,36 @@ NOTE: Telegram only uses 'label&rsquo;, not 'data&rsquo;.
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>TODO - it makes a call to the url and stores the response</p>
+<p>It makes a call to the url and stores the response json object in the variable name.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th style="text-align: center">Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>url</td>
+<td style="text-align: center">Get url</td>
+</tr>
+<tr>
+<td>params</td>
+<td style="text-align: center">Array of parameters for the get call</td>
+</tr>
+</tbody></table>
 
 <h2 id="get-name">Get name</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-
+  </span><span class="nt">"action"</span><span class="p">:</span><span class="s2">"get_name"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"variables"</span><span class="p">:</span><span class="s2">"confirm_get_name"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>TODO</p>
+<p>The user input should be a text with at most 3 words.</p>
 
 <h2 id="get-email">Get email</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user_email"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_email"</span><span class="w">
+  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_email"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user_email"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Gets the email and check if it is well writed. <strong>something@someother</strong></p>
@@ -781,7 +993,7 @@ NOTE: Telegram only uses 'label&rsquo;, not 'data&rsquo;.
   </span><span class="nt">"variable"</span><span class="p">:</span><span class="s2">"age"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Saves a number representing the age. Age should match 1 &lt;= age &lt; 120 </p>
+<p>Saves a number representing the age. Age should match 1 &lt;= age &lt; 120.</p>
 
 <h2 id="get-location">Get location</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
@@ -790,21 +1002,104 @@ NOTE: Telegram only uses 'label&rsquo;, not 'data&rsquo;.
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>The variable location will contain the components: <code class="prettyprint">latitude</code> , <code class="prettyprint">longitude</code>, <code class="prettyprint">title</code>, <code class="prettyprint">address</code>, <code class="prettyprint">url</code>. For field 
-info see <a href="#location">location</a>.
-IMPORTANT: The get location input is only available on Facebook. </p>
+info see <a href="#location">location</a>.</p>
+
+<aside class="softwarn">
+NOTE: The get image input is only available on Facebook. Currently other platforms will ignore that output.
+</aside>
 
 <h2 id="get-image">Get image</h2>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"the_image_url"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_image"</span><span class="w">
+  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"get_image"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"variable"</span><span class="p">:</span><span class="w"> </span><span class="s2">"the_image_url"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>It will save in the variable the url given by the provider ( facebook )
-IMPORTANT: The get image input is only available on Facebook. </p>
+<p>It will save in the variable the url given by the provider.</p>
+
+<aside class="softwarn">
+NOTE: The get image input is only available on Facebook. Currently other platforms will ignore that output.
+</aside>
 
 <h1 id="templating">Templating</h1>
 
 <p>See <a href="http://jinja.pocoo.org/">Jinja</a>.</p>
+
+<h1 id="error-types">Error types</h1>
+
+<p>There may be errors during the parsing and execution of a bot. They are of different types inheriting from 
+<code class="prettyprint">BotException</code>, and are mainly classified as JSON or BotSON related.</p>
+
+<table><thead>
+<tr>
+<th>BotException</th>
+<th></th>
+</tr>
+</thead><tbody>
+<tr>
+<td>JSONParseException</td>
+<td>Raises when the JSON is invalid</td>
+</tr>
+<tr>
+<td>BotSONException</td>
+<td>Raises otherwise</td>
+</tr>
+</tbody></table>
+
+<h2 id="jsonparseexception">JSONParseException</h2>
+
+<table><thead>
+<tr>
+<th>Attributes</th>
+<th>Contains</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>message</td>
+<td>Reason why the json is invalid</td>
+</tr>
+<tr>
+<td>line</td>
+<td>Line of the problem in the json</td>
+</tr>
+<tr>
+<td>column</td>
+<td>Column of the problem in the json</td>
+</tr>
+</tbody></table>
+
+<h2 id="botsonexception">BotSONException</h2>
+
+<table><thead>
+<tr>
+<th>Types</th>
+<th></th>
+</tr>
+</thead><tbody>
+<tr>
+<td>BotSONParseException</td>
+<td>Raises during parsing</td>
+</tr>
+<tr>
+<td>BotSONExecException</td>
+<td>Raises during execution</td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>Attributes</th>
+<th>Contains</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>message</td>
+<td>Explanation of the error</td>
+</tr>
+<tr>
+<td>trace</td>
+<td>Approximate path to the error in the json. <em>Note: in definition and trigger arrays it will use label/match value instead of index number</em></td>
+</tr>
+</tbody></table>
 
 <h1 id="ai-integration">AI integration</h1>
 
@@ -836,8 +1131,33 @@ To start just configure the credentials</p>
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Then you can call the ai in two different ways. The object return has <code class="prettyprint">intent</code>, <code class="prettyprint">entities</code> and <code class="prettyprint">raw</code>. Where raw is 
-the full API response.</p>
+<p>Then you can call the ai in two different ways.
+<br><br>The object return has <code class="prettyprint">intent</code>, <code class="prettyprint">entities</code> and <code class="prettyprint">raw</code>. Where raw is 
+the full API response. The object saved in the variable will have the following structure.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th style="text-align: center">Value</th>
+<th style="text-align: right"></th>
+</tr>
+</thead><tbody>
+<tr>
+<td>intent</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>entities</td>
+<td style="text-align: center">String</td>
+<td style="text-align: right"></td>
+</tr>
+<tr>
+<td>raw</td>
+<td style="text-align: center">Object</td>
+<td style="text-align: right"><em>Depending on your AI the object <br>could have different structures</em></td>
+</tr>
+</tbody></table>
 
       </div>
       <div class="dark-box">
