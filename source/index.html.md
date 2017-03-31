@@ -958,7 +958,8 @@ There may be errors during the parsing and execution of a bot. They are of diffe
 | trace | Approximate path to the error in the json. _Note: in definition and trigger arrays it will use label/match value instead of index number_  |
 
 #AI integration
-You are able to use watson or api.ai bots to manage the botSON flow. 
+You are able to use watson or api.ai bots to manage the botSON flow.
+ 
 ```json
 {
   "ai_backends":{
@@ -969,8 +970,8 @@ You are able to use watson or api.ai bots to manage the botSON flow.
     },
     "api_ai":{
     "token":"(token)"
+    }
   }
-}
 }
 ```
 To start just configure the credentials
@@ -998,7 +999,7 @@ the full API response. The object saved in the variable will have the following 
 | --------- |:-------------:| -----:|
 | intent      | String | |
 | entities    | String | |
-| output_text | String | |
+| output_text | String | Verbose response of the AI in that intent|
 
 <!-- | raw         | Object | *Depending on your AI the object <br>could have different structures* |
 -->
