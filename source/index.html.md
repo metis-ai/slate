@@ -115,6 +115,19 @@ state `input_failure`.
 Finally, in the state `result` the bot sends a text message saying what was the pick of the user and returns to the 
 `choice` state.
 
+##botSON code
+```json
+{
+  "something":"this is a multiline
+    line because
+    botSON is cooler than JSON"
+}
+```
+botSON and JSON are slightly different, botSON allows multiline strings while JSON don't. 
+<aside class="softwarn">
+Please keep in mind that if there is some error in those lines the bug report will point to the first line.
+</aside>
+
 #Top level properties
 
 ##input_retry
@@ -985,6 +998,7 @@ the full API response. The object saved in the variable will have the following 
 | --------- |:-------------:| -----:|
 | intent      | String | |
 | entities    | String | |
+| output_text | String | |
 
 <!-- | raw         | Object | *Depending on your AI the object <br>could have different structures* |
 -->
