@@ -960,6 +960,8 @@ There may be errors during the parsing and execution of a bot. They are of diffe
 #AI integration
 You are able to use watson or api.ai bots to manage the botSON flow.
  
+##Configuration
+
 ```json
 {
   "ai_backends":{
@@ -975,6 +977,8 @@ You are able to use watson or api.ai bots to manage the botSON flow.
 }
 ```
 To start just configure the credentials
+
+##AI calls
 
 ```json
 {
