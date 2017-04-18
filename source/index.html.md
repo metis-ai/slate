@@ -11,18 +11,18 @@ search: true
 
 #Introduction
 
-botSON definitions for the bots created and mantained for hubtype.
+botSON is a lightweight language to quickly implement and deploy a chatbot 
+on Facebook, Twitter, Wechat, or your favourite IM platform using Hubtype.
 
-This folder contains several examples of chatbots defined in our JSON specification language (botSON). Here you'll 
-also find the bots we define for our real clients, for demos or for fun (consumer oriented).
+BotSON's basics are simple enough to allow non-developers to quickly craft cool bots,
+but it also allows to easily process calls to external webservices, 
+including NLP providers such as Watson.
 
-botSON is a JSON structure defined to create chatbots. Bots are finite states machines that are able to comunicate 
-with external resources and do some stuff defined by their transitions. It uses [Jinja](http://jinja.pocoo.org/) to 
-give flexible state interactions.
+In botSON, every bot is described in a single json file. 
 
-#Getting Started
+# Getting started
 
-##Creating a state
+Here is the simplest bot we could think of:
 
 ```json
 {
@@ -44,14 +44,21 @@ give flexible state interactions.
 }
 ```
 
-The definition of the bot is composed by states. Each one has a `label`, a `next_step` and at least one `output` or 
-`input`.
+Its definition contains two states, with labels "initial" and "helloworld".
+The first state is executed whenever a user initiates a conversation with the bot.
+The user's text is stored in a variable called "first_text_from_user",
+and the "next_step" value determines the state to be executed next.
+Then, the "helloworld" state gets executed, resulting in the bot
+texting "Hello World!" to the user.
 
-Every bot starts it's execution in the state 'initial' when the user does the first input. Then, it goes to the next 
-state: 'helloworld'. There, the bot will output  'Hello World!' and go to 'exit', where the bot reach the end of 
-execution.
+You can set up a bot in a few minutes on Hubtype, connecting it
+with Facebook Messenger, Telegram, Twitter, or your favourite IM platform.
 
-##Basic bot
+See the three minutes set up video
+
+## A basic example bot
+
+Bots can do much more than just send text. Let's see a basic example:
 
 ```json
 {
@@ -99,23 +106,23 @@ execution.
 }
 ```
 
-A complete bot usually never ends, it loops back to previous states. Also, it can use variables and other forms of 
+A complete bot usually never ends,
+it loops back to previous states. Also, it can use variables and other forms of 
 `input` and `output` other than simple text.
 
-In this case, after the first text of the user, this bot will show two quick replies ('RED', 'BLUE' and 'GREEN'). The 
-user can click them or write itself the response. 
- 
-Then, the bot expects an input string that can be 'RED', 'BLUE' or 'GREEN', store it in the variable `user_choice` 
-and go to the next state `result`.
+In this case, after the first text of the user, this bot will show two quick replies ('RED', 'BLUE' and 'GREEN'). The  user can click them or write the response. 
+Then, the bot expects an input string that can be 'RED', 'BLUE' or 'GREEN', 
+store it in the variable `user_choice` and go to the next state `result`.
 
 * If the user wrote anything else, the chatbot would reply with the possible options in a message like "Please, 
 choose one of the following values: RED, BLUE" at most `input_retry` times. If it fails all 3 times it will go to the 
 state `input_failure`.
 
-Finally, in the state `result` the bot sends a text message saying what was the pick of the user and returns to the 
-`choice` state.
+Finally, in the state `result` the bot sends a text message saying what was the pick of the user and returns to the `choice` state. The output text allows [Jinja](http://jinja.pocoo.org/) to give flexible state interactions.
 
-##botSON code
+
+#botSON code
+
 ```json
 {
   "something":"this is a multiline
@@ -123,10 +130,11 @@ Finally, in the state `result` the bot sends a text message saying what was the 
     botSON is cooler than JSON"
 }
 ```
-botSON and JSON are slightly different, botSON allows multiline strings while JSON don't. 
+botSON and JSON are slightly different, botSON allows multiline strings while JSON does not. 
 <aside class="softwarn">
 Please keep in mind that if there is some error in those lines the bug report will point to the first line.
 </aside>
+
 
 #Top level properties
 
@@ -147,8 +155,8 @@ Please keep in mind that if there is some error in those lines the bug report wi
       "foo": "bar"
     }
   },
-  "triggers":{},
-  "definition":{}
+  "triggers":"<Triggers definition goes here>",
+  "definition": "<Stated definition goes here>"
 }
 ```
 
@@ -161,7 +169,7 @@ The name of the bot.
 
 ##language
 
-Indicates the language the bot will use. Currently this field is not used.
+Indicates the language the bot will use.
 
 <aside class="softwarn">
 Currently this field is not used.
